@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
+
 @SpringBootApplication
 public class CrudappApplication {
 
@@ -18,8 +20,18 @@ public class CrudappApplication {
 	public CommandLineRunner clr(EmployeeDAOInterface employeeDAOInterface)
 	{
 		return runner->{
-			readEmployee(employeeDAOInterface);
+			queryEmployees(employeeDAOInterface);
 		};
+	}
+
+	private void queryEmployees(EmployeeDAOInterface employeeDAOInterface) {
+
+		List<Employee> employees = employeeDAOInterface.findAll();
+
+		for(Employee emp: employees)
+		{
+			System.out.println(emp);
+		}
 	}
 
 	private void readEmployee(EmployeeDAOInterface employeeDAOInterface) {
@@ -59,5 +71,8 @@ public class CrudappApplication {
 		System.out.println("Employee id : " + employee4.getId());
 
 	}
+
+
+
 
 }
