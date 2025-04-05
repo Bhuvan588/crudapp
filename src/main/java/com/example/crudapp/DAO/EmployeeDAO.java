@@ -38,4 +38,38 @@ public class EmployeeDAO implements EmployeeDAOInterface{
 
         return query.getResultList();
     }
+
+    @Override
+    public List<Employee> findByLastName(String lastName) {
+        TypedQuery<Employee> query = entityManager.createQuery("FROM Employee WHERE lastName=:data", Employee.class);
+
+        query.setParameter("data", lastName); //the parameter
+
+        return query.getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void update(Employee employee) {
+
+        entityManager.merge(employee);
+    }
+
+    @Override
+    @Transactional
+    public void delete(int id) {
+
+        Employee employee = entityManager.find(Employee.class, id);
+        entityManager.remove(employee);
+    }
+
+    @Override
+    @Transactional
+    public int deleteAll() {
+
+        int rowsDeleted = entityManager.createQuery("DELETE FROM Employee").executeUpdate();
+
+        return rowsDeleted;
+
+    }
 }

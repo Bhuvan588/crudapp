@@ -20,8 +20,56 @@ public class CrudappApplication {
 	public CommandLineRunner clr(EmployeeDAOInterface employeeDAOInterface)
 	{
 		return runner->{
-			queryEmployees(employeeDAOInterface);
+			deleteAllEmployees(employeeDAOInterface);
 		};
+	}
+
+	private void deleteAllEmployees(EmployeeDAOInterface employeeDAOInterface) {
+
+		System.out.println("Deleting all employees");
+
+		int rowsDeleted = employeeDAOInterface.deleteAll();
+
+		System.out.println("No of rows deleted: " + rowsDeleted);
+
+
+	}
+
+	private void deleteEmployee(EmployeeDAOInterface employeeDAOInterface) {
+
+		int id=1;
+		System.out.println("Deleting employee of id: " + id);
+		employeeDAOInterface.delete(id);
+	}
+
+	private void updateEmployee(EmployeeDAOInterface employeeDAOInterface) {
+
+		//Find employee by id using primary key
+		int id =3;
+
+		Employee employee = employeeDAOInterface.findById(id);
+
+		System.out.println("Employee before update: ");
+		System.out.println(employee);
+
+		System.out.println("Updating employee with id: " + id);
+
+		employee.setFirstName("Atul Damodhar");
+
+		employeeDAOInterface.update(employee);
+
+		System.out.println("Employee after update: ");
+		System.out.println(employee);
+
+	}
+
+	private void queryEmployeesByLastName(EmployeeDAOInterface employeeDAOInterface) {
+
+		List<Employee> employees = employeeDAOInterface.findByLastName("Savant");
+		for(Employee emp: employees)
+		{
+			System.out.println(emp);
+		}
 	}
 
 	private void queryEmployees(EmployeeDAOInterface employeeDAOInterface) {
